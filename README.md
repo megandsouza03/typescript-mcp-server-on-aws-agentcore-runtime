@@ -9,6 +9,14 @@ GitHub repository hosts a TypeScript-based MCP (Model Context Protocol) server r
 - ECR Repository for storing your Docker image
 - AWS Account with Bedrock Agentcore
 
+## Understanding the AgentCore Runtime service contract
+https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-service-contract.html
+- Host: 0.0.0.0
+- Port: 8000
+- Transport: Stateless streamable-http
+- Path requirements: `/mcp` - POST
+
+
 ## Local Development
 
 1. Install dependencies
