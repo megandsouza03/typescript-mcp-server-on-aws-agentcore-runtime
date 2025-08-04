@@ -6,6 +6,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
+npm install typescript -g
+
 COPY . .
 RUN npm run build
 
@@ -16,8 +18,8 @@ WORKDIR /app
 
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist # Copy the compiled JavaScript output
+COPY --from=builder /app/dist ./dist 
 
 EXPOSE 8000 
 
-CMD ["node", "dist/index.js"] # Adjust based on your main entry point
+CMD ["node", "dist/index.js"] 

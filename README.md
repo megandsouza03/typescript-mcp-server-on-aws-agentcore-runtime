@@ -56,11 +56,8 @@ aws ecr create-repository --repository-name mcp-server --region us-east-1
 aws ecr get-login-password --region us-east-1 | \
   docker login --username AWS --password-stdin [account-id].dkr.ecr.us-east-1.amazonaws.com
 
-docker build --platform linux/arm64 \
-  -t [account-id].dkr.ecr.us-east-1.amazonaws.com/mcp-server:latest .
-
-# Push to ECR
-docker push [account-id].dkr.ecr.us-east-1.amazonaws.com/mcp-server:latest
+docker buildx --platform linux/arm64 \
+  -t [account-id].dkr.ecr.us-east-1.amazonaws.com/mcp-server:latest --push .
 ```
 
 3. Deploy to Bedrock Agent Core
@@ -73,11 +70,13 @@ docker push [account-id].dkr.ecr.us-east-1.amazonaws.com/mcp-server:latest
         Deploy and test in the Agent Sandbox
 
 
-4. Obtain MCP url of the MCP server running on agentcore runtime 
+4. Obtain encoded ARN MCP url of the MCP server running on agentcore runtime 
 
 ```
 echo "agent_arn" | sed 's/:/%3A/g; s/\//%2F/g'
 ```
+
+mcp_url = "https://bedrock-agentcore.{region}.amazonaws.com/runtimes/{encoded_arn}/invocations?qualifier=DEFAULT"
 
 5. Use the MCP url with [MCP inspector](https://github.com/modelcontextprotocol/inspector).
 
